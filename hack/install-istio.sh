@@ -51,7 +51,10 @@ istioctl x create-remote-secret \
   --name=cluster2 | \
   kubectl apply -f - --context="${CTX_CLUSTER1}"
 # Generate remote secret for cluster 1 connect to cluster 2
- ./istioctl x create-remote-secret --name=cluster1 --kubeconfig ~/.kube/config
+ ./istioctl x create-remote-secret --name=cluster1 --kubeconfig ~/.kube/config > access-cluster1.yaml
+kubectl apply -f access-cluster2.yaml
 
 # Generate remote secret for cluster 2 connect to cluster 1
- ./istioctl x create-remote-secret --name=cluster2 --kubeconfig ~/.kube/config
+ ./istioctl x create-remote-secret --name=cluster2 --kubeconfig ~/.kube/config > access-cluster2.yaml
+ kubectl apply -f access-cluster1.yaml
+ 
