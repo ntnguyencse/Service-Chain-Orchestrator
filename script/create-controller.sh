@@ -1,0 +1,1 @@
+kubebuilder init --plugins go/v3 --domain automation.dcn.ssu.ac.kr --owner "Nguyen Thanh Nguyen" --project-name "sfc-at-edge" --repo "github.com/ntnguyencse/Service-Chain-Orchestrator"
