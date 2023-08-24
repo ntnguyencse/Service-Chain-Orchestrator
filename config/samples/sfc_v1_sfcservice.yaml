@@ -1,0 +1,12 @@
+apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
+kind: SFCService
+metadata:
+  labels:
+    app.kubernetes.io/name: sfcservice
+    app.kubernetes.io/instance: sfcservice-sample
+    app.kubernetes.io/part-of: sfc-at-edge
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: sfc-at-edge
+  name: sfcservice-sample
+spec:
+  # TODO(user): Add fields here

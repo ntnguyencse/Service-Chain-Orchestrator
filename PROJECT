@@ -35,4 +35,22 @@ resources:
   kind: Scheduler
   path: github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1
   version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: automation.dcn.ssu.ac.kr
+  group: sfc
+  kind: SFCService
+  path: github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: automation.dcn.ssu.ac.kr
+  group: sfc
+  kind: SFCDeployment
+  path: github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1
+  version: v1
 version: "3"

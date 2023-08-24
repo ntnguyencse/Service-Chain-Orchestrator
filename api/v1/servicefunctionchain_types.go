@@ -17,6 +17,7 @@ limitations under the License.
 package v1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -28,14 +29,28 @@ type ServiceFunctionChainSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of ServiceFunctionChain. Edit servicefunctionchain_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	NumberOfNode                 int    `json:"numberofnode,omitempty"`
+	DefaultServiceLevelAgreement string `json:"defaultSLA,omitempty"`
 }
+type LinkService struct {
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Service           ServiceDefinition       `json:"service,omitempty"`
+	Deployment        *corev1.ObjectReference `json:"deployment,omitempty"`
+}
+type ServiceDefinition struct {
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Connectivity      Connectivity            `json:"connectivity,omitempty"`
+	ServiceRef        *corev1.ObjectReference `json:"ServiceRef,omitempty"`
+	TargetServiceRef  *corev1.ObjectReference `json:"TargetServiceRef,omitempty"`
+}
+type Connectivity map[string]string
 
 // ServiceFunctionChainStatus defines the observed state of ServiceFunctionChain
 type ServiceFunctionChainStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Placement    string `json:"placement,omitempty"`
+	OldPlacement string `json:"oldplacement,omitempty"`
 }
 
 //+kubebuilder:object:root=true

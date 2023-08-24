@@ -1,0 +1,27 @@
+# permissions for end users to view sfcservices.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: sfcservice-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: sfc-at-edge
+    app.kubernetes.io/part-of: sfc-at-edge
+    app.kubernetes.io/managed-by: kustomize
+  name: sfcservice-viewer-role
+rules:
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - sfcservices
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - sfcservices/status
+  verbs:
+  - get

@@ -1,0 +1,60 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.11.1
+  creationTimestamp: null
+  name: servicefunctionchains.sfc.automation.dcn.ssu.ac.kr
+spec:
+  group: sfc.automation.dcn.ssu.ac.kr
+  names:
+    kind: ServiceFunctionChain
+    listKind: ServiceFunctionChainList
+    plural: servicefunctionchains
+    singular: servicefunctionchain
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: ServiceFunctionChain is the Schema for the servicefunctionchains
+          API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ServiceFunctionChainSpec defines the desired state of ServiceFunctionChain
+            properties:
+              defaultSLA:
+                type: string
+              numberofnode:
+                type: integer
+            type: object
+          status:
+            description: ServiceFunctionChainStatus defines the observed state of
+              ServiceFunctionChain
+            properties:
+              oldplacement:
+                type: string
+              placement:
+                description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                  of cluster Important: Run "make" to regenerate code after modifying
+                  this file'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

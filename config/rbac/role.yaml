@@ -1,0 +1,137 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - schedulers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - schedulers/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - schedulers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - servicefunctionchains
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - servicefunctionchains/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - servicefunctionchains/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - servicelevelagreements
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - servicelevelagreements/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - servicelevelagreements/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - sfcdeployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - sfcdeployments/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - sfcdeployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - sfcservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - sfcservices/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - sfc.automation.dcn.ssu.ac.kr
+  resources:
+  - sfcservices/status
+  verbs:
+  - get
+  - patch
+  - update
