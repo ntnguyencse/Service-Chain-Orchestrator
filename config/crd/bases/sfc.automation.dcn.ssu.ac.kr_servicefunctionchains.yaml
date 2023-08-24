@@ -256,13 +256,20 @@ spec:
             description: ServiceFunctionChainStatus defines the observed state of
               ServiceFunctionChain
             properties:
-              oldplacement:
-                type: string
-              placement:
+              serviceFunctions:
                 description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
                   of cluster Important: Run "make" to regenerate code after modifying
                   this file'
-                type: string
+                items:
+                  properties:
+                    deployed:
+                      type: boolean
+                    oldplacement:
+                      type: string
+                    placement:
+                      type: string
+                  type: object
+                type: array
             type: object
         type: object
     served: true
