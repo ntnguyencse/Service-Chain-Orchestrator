@@ -20,10 +20,12 @@ import (
 	"context"
 
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
+	"github.com/go-logr/logr"
 	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
 )
 
@@ -31,7 +33,13 @@ import (
 type SchedulerReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
+	l      logr.Logger
+	s      *json.Serializer
 }
+
+var (
+	loggerSD = ctrl.Log.WithName("Scheduler Controller")
+)
 
 //+kubebuilder:rbac:groups=sfc.automation.dcn.ssu.ac.kr,resources=schedulers,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=sfc.automation.dcn.ssu.ac.kr,resources=schedulers/status,verbs=get;update;patch
@@ -50,6 +58,7 @@ func (r *SchedulerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	_ = log.FromContext(ctx)
 
 	// TODO(user): your logic here
+	loggerSD.Info("Start Scheduler COntroller")
 
 	return ctrl.Result{}, nil
 }

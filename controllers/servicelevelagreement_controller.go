@@ -20,10 +20,12 @@ import (
 	"context"
 
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
+	"github.com/go-logr/logr"
 	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
 )
 
@@ -31,7 +33,13 @@ import (
 type ServiceLevelAgreementReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
+	l      logr.Logger
+	s      *json.Serializer
 }
+
+var (
+	loggerSLA = ctrl.Log.WithName("SLA Controller")
+)
 
 //+kubebuilder:rbac:groups=sfc.automation.dcn.ssu.ac.kr,resources=servicelevelagreements,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=sfc.automation.dcn.ssu.ac.kr,resources=servicelevelagreements/status,verbs=get;update;patch
