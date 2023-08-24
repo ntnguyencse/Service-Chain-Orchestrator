@@ -25,6 +25,9 @@ import (
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // SFCServiceSpec defines the desired state of SFCService
+
+// If any error, refer: https://github.com/kubernetes-sigs/controller-tools/issues/772#issuecomment-1416027564
+// just set CONTROLLER_TOOLS_VERSION ?= v0.11.2 in Makefile and k8s.io/api v0.26.1 in go.mod, and it's working now! thanks!
 type SFCServiceSpec corev1.ServiceSpec
 
 // type SFCServiceSpec struct {

@@ -25,20 +25,17 @@ import (
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // SFCDeploymentSpec defines the desired state of SFCDeployment
-// type SFCDeploymentSpec struct {
-// 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-// 	// Important: Run "make" to regenerate code after modifying this file
 
-//		// Foo is an example field of SFCDeployment. Edit sfcdeployment_types.go to remove/update
-//		Foo string `json:"foo,omitempty"`
-//	}
+// If any error, refer: https://github.com/kubernetes-sigs/controller-tools/issues/772#issuecomment-1416027564
+// just set CONTROLLER_TOOLS_VERSION ?= v0.11.2 in Makefile and k8s.io/api v0.26.1 in go.mod, and it's working now! thanks!
+
 type SFCDeploymentSpec appsv1.DeploymentSpec
 
 // SFCDeploymentStatus defines the observed state of SFCDeployment
 type SFCDeploymentStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	
+
 }
 
 //+kubebuilder:object:root=true
