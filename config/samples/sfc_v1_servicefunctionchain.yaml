@@ -9,31 +9,31 @@ spec:
   numberofnode: 3
   defaultSLA: sla-streaming-video
   links:
-    - service:
-        metadata:
-          name: chain-link-1
-        service:
-          connectivity:
-            minimumLatency: 30ms
-            minimumBandwidthIn: 1Gbs
-            minimumBandwidthOut: 1Gbs
-            maximumPackageLoss: 1%
-          serviceRef:
-            kind: SFCService
-            namespace: default
-            name: upload-video-service
-            apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
-          targetServiceRef:
-            kind: SFCService
-            namespace: default
-            name: process-video-service
-            apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
-        deployment:
-          kind: SFCDeployment
+    - 
+      metadata:
+        name: chain-link-1
+      service:
+        connectivity:
+          minimumLatency: 30ms
+          minimumBandwidthIn: 1Gbs
+          minimumBandwidthOut: 1Gbs
+          maximumPackageLoss: 1%
+        serviceRef:
+          kind: SFCService
           namespace: default
-          name: upload-video-app
+          name: upload-video-service
           apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
-    - service:
+        targetServiceRef:
+          kind: SFCService
+          namespace: default
+          name: process-video-service
+          apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
+      deployment:
+        kind: SFCDeployment
+        namespace: default
+        name: upload-video-app
+        apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
+    - 
         metadata:
           name: chain-link-2
         service:
@@ -56,7 +56,7 @@ spec:
           namespace: default
           name: process-video-app
           apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
-    - service:
+    - 
         metadata:
           name: dead-end
         service:

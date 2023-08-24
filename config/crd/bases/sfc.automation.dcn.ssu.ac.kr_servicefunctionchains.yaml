@@ -105,6 +105,9 @@ spec:
                       type: object
                       x-kubernetes-map-type: atomic
                     metadata:
+                      properties:
+                        name:
+                          type: string
                       type: object
                     service:
                       properties:
@@ -113,6 +116,9 @@ spec:
                             type: string
                           type: object
                         metadata:
+                          properties:
+                            name:
+                              type: string
                           type: object
                         serviceRef:
                           description: "ObjectReference contains enough information

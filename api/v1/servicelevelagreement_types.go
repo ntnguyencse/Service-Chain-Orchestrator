@@ -37,7 +37,7 @@ type ConnectivitySpec struct {
 	MinimumLatency int `json:"minimumLatency,omitempty"`
 	// MaximumPackageLoss
 	// Percentage
-	MaximumPackageLoss int `json:"maxiumPackageLoss,omitempty"`
+	MaximumPackageLoss int `json:"maximumPacketLoss,omitempty"`
 }
 type LatencyPercentileScoreSpec struct {
 	// NinetiethPercentileScore

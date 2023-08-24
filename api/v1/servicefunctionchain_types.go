@@ -34,17 +34,20 @@ type ServiceFunctionChainSpec struct {
 	Links                        []LinkService `json:"links,omitempty"`
 }
 type LinkService struct {
-	Metadata   metav1.ObjectMeta       `json:"metadata,omitempty"`
+	Metadata   MetaData                `json:"metadata,omitempty"`
 	Service    ServiceDefinition       `json:"service,omitempty"`
 	Deployment *corev1.ObjectReference `json:"deployment,omitempty"`
 }
 type ServiceDefinition struct {
-	Metadata         metav1.ObjectMeta       `json:"metadata,omitempty"`
+	Metadata         MetaData                `json:"metadata,omitempty"`
 	Connectivity     Connectivity            `json:"connectivity,omitempty"`
 	ServiceRef       *corev1.ObjectReference `json:"serviceRef,omitempty"`
 	TargetServiceRef *corev1.ObjectReference `json:"targetServiceRef,omitempty"`
 }
 type Connectivity map[string]string
+type MetaData struct {
+	Name string `json:"name,omitempty"`
+}
 
 // ServiceFunctionChainStatus defines the observed state of ServiceFunctionChain
 type ServiceFunctionChainStatus struct {
