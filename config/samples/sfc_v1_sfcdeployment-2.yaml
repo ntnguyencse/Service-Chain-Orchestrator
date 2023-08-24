@@ -1,0 +1,30 @@
+apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
+kind: SFCDeployment
+metadata:
+  name: process-video
+  namespace: default
+  labels:
+    app: process-video-app
+    version: v1
+    chain: video-streaming-chain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: process-video-app
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: process-video-app
+        version: v1
+    spec:
+      containers:
+      - name: helloworld
+        image: docker.io/istio/examples-helloworld-v2
+        resources:
+          requests:
+            cpu: "100m"
+        imagePullPolicy: IfNotPresent #Always
+        ports:
+        - containerPort: 5000

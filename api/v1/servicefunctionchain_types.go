@@ -34,15 +34,15 @@ type ServiceFunctionChainSpec struct {
 	Links                        []LinkService `json:"links,omitempty"`
 }
 type LinkService struct {
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Service           ServiceDefinition       `json:"service,omitempty"`
-	Deployment        *corev1.ObjectReference `json:"deployment,omitempty"`
+	Metadata   metav1.ObjectMeta       `json:"metadata,omitempty"`
+	Service    ServiceDefinition       `json:"service,omitempty"`
+	Deployment *corev1.ObjectReference `json:"deployment,omitempty"`
 }
 type ServiceDefinition struct {
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Connectivity      Connectivity            `json:"connectivity,omitempty"`
-	ServiceRef        *corev1.ObjectReference `json:"ServiceRef,omitempty"`
-	TargetServiceRef  *corev1.ObjectReference `json:"TargetServiceRef,omitempty"`
+	Metadata         metav1.ObjectMeta       `json:"metadata,omitempty"`
+	Connectivity     Connectivity            `json:"connectivity,omitempty"`
+	ServiceRef       *corev1.ObjectReference `json:"serviceRef,omitempty"`
+	TargetServiceRef *corev1.ObjectReference `json:"targetServiceRef,omitempty"`
 }
 type Connectivity map[string]string
 

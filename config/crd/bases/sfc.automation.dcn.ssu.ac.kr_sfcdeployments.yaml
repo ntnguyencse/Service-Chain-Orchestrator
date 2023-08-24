@@ -33,8 +33,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: // Foo is an example field of SFCDeployment. Edit sfcdeployment_types.go
-              to remove/update Foo string `json:"foo,omitempty"` }
+            description: DeploymentSpec is the specification of the desired behavior
+              of the Deployment.
             properties:
               minReadySeconds:
                 description: Minimum number of seconds for which a newly created pod

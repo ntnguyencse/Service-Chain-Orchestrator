@@ -1,0 +1,15 @@
+apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
+kind: SFCService
+metadata:
+  name: publish-video-service
+  namespace: default
+  labels:
+    app: publish-video-app
+    service: publish-video-app-service
+    chain: video-streaming-chain
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: publish-video-app

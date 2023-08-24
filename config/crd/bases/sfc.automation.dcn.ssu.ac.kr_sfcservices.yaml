@@ -33,7 +33,9 @@ spec:
           metadata:
             type: object
           spec:
-            description: SFCServiceSpec defines the desired state of SFCService
+            description: 'If any error, refer: https://github.com/kubernetes-sigs/controller-tools/issues/772#issuecomment-1416027564
+              just set CONTROLLER_TOOLS_VERSION ?= v0.11.2 in Makefile and k8s.io/api
+              v0.26.1 in go.mod, and it''s working now! thanks!'
             properties:
               allocateLoadBalancerNodePorts:
                 description: allocateLoadBalancerNodePorts defines if NodePorts will

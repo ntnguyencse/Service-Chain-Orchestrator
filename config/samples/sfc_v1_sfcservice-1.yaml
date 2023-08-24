@@ -1,0 +1,15 @@
+apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
+kind: SFCService
+metadata:
+  name: upload-video-service
+  namespace: default
+  labels:
+    app: upload-video-app
+    service: upload-video-app-service
+    chain: video-streaming-chain
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: upload-video-app
