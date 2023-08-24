@@ -36,10 +36,21 @@ spec:
           spec:
             description: ServiceLevelAgreementSpec defines the desired state of ServiceLevelAgreement
             properties:
-              foo:
-                description: Foo is an example field of ServiceLevelAgreement. Edit
-                  servicelevelagreement_types.go to remove/update
-                type: string
+              connectivity:
+                properties:
+                  maxiumPackageLoss:
+                    description: MaximumPackageLoss Percentage
+                    type: integer
+                  minimumLatency:
+                    description: MinimumLatency mili second
+                    type: integer
+                type: object
+              latencyPercentileScore:
+                properties:
+                  ninetiethPercentileScore:
+                    description: NinetiethPercentileScore mili second
+                    type: integer
+                type: object
             type: object
           status:
             description: ServiceLevelAgreementStatus defines the observed state of

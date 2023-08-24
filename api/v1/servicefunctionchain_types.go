@@ -29,8 +29,9 @@ type ServiceFunctionChainSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	NumberOfNode                 int    `json:"numberofnode,omitempty"`
-	DefaultServiceLevelAgreement string `json:"defaultSLA,omitempty"`
+	NumberOfNode                 int           `json:"numberofnode,omitempty"`
+	DefaultServiceLevelAgreement string        `json:"defaultSLA,omitempty"`
+	Links                        []LinkService `json:"links,omitempty"`
 }
 type LinkService struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`

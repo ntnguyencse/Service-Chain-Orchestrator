@@ -57,6 +57,6 @@ func (r *SchedulerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 // SetupWithManager sets up the controller with the Manager.
 func (r *SchedulerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&sfcv1.Scheduler{}).
+		For(&sfcv1.ServiceFunctionChain{}).
 		Complete(r)
 }

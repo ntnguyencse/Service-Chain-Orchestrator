@@ -28,8 +28,21 @@ type ServiceLevelAgreementSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of ServiceLevelAgreement. Edit servicelevelagreement_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	Connectivity           ConnectivitySpec           `json:"connectivity,omitempty"`
+	LatencyPercentileScore LatencyPercentileScoreSpec `json:"latencyPercentileScore,omitempty"`
+}
+type ConnectivitySpec struct {
+	// MinimumLatency
+	// mili second
+	MinimumLatency int `json:"minimumLatency,omitempty"`
+	// MaximumPackageLoss
+	// Percentage
+	MaximumPackageLoss int `json:"maxiumPackageLoss,omitempty"`
+}
+type LatencyPercentileScoreSpec struct {
+	// NinetiethPercentileScore
+	// mili second
+	NinetiethPercentileScore int `json:"ninetiethPercentileScore,omitempty"`
 }
 
 // ServiceLevelAgreementStatus defines the observed state of ServiceLevelAgreement
