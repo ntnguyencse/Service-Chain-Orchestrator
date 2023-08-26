@@ -19,14 +19,14 @@ package controllers
 import (
 	"context"
 
+	"github.com/go-logr/logr"
+	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
-
-	"github.com/go-logr/logr"
-	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
 )
 
 // SchedulerReconciler reconciles a Scheduler object
@@ -57,8 +57,27 @@ var (
 func (r *SchedulerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
 
-	// TODO(user): your logic here
 	loggerSD.Info("Start Scheduler COntroller")
+	SFC := &sfcv1.ServiceFunctionChain{}
+	if err := r.Client.Get(ctx, req.NamespacedName, SFC); err != nil {
+		if apierrors.IsNotFound(err) {
+			// Object not found, return.  Created objects are automatically garbage collected.
+			// For additional cleanup logic use finalizers.
+			return ctrl.Result{}, nil
+		}
+
+		// Error reading the object - requeue the request.
+		return ctrl.Result{}, err
+	}
+	listLocation := []string{"Location 1", "Location 2", "Location 3"}
+	loggerSD.Info("Start scheduling Service Function Chain")
+	listSF := SFC.Spec.Links
+	for id, SF := range listSF {
+		loggerSD.Info("Print Service Function: ", SF.Metadata.Name, SF.Deployment)
+		loggerSD.Info("Finding placement for ", SF.Metadata.Name, SF.Deployment)
+		loggerSD.Info("Placement for ", SF.Metadata.Name, listLocation[id])
+
+	}
 
 	return ctrl.Result{}, nil
 }

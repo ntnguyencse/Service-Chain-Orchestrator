@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: process-video-service
+  namespace: default
+  labels:
+    app: process-video-app
+    service: process-video-app-service
+    chain: video-streaming-chain
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: process-video-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: process-video
+  namespace: default
+  labels:
+    app: process-video-app
+    version: v1
+    chain: video-streaming-chain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: process-video-app
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: process-video-app
+        version: v1
+    spec:
+      containers:
+      - name: helloworld
+        image: docker.io/istio/examples-helloworld-v2
+        resources:
+          requests:
+            cpu: "100m"
+        imagePullPolicy: IfNotPresent #Always
+        ports:
+        - containerPort: 5000

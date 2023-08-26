@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -58,7 +59,19 @@ func (r *ServiceLevelAgreementReconciler) Reconcile(ctx context.Context, req ctr
 	_ = log.FromContext(ctx)
 
 	// TODO(user): your logic here
+	loggerSLA.Info("SLA Controller")
+	SLA := &sfcv1.ServiceLevelAgreement{}
+	if err := r.Client.Get(ctx, req.NamespacedName, SLA); err != nil {
+		if apierrors.IsNotFound(err) {
+			// Object not found, return.  Created objects are automatically garbage collected.
+			// For additional cleanup logic use finalizers.
+			return ctrl.Result{}, nil
+		}
 
+		// Error reading the object - requeue the request.
+		return ctrl.Result{}, err
+	}
+	loggerSLA.Info("Get SLA for Service Chain", SLA.Name, SLA.Spec)
 	return ctrl.Result{}, nil
 }
 

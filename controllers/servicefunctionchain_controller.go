@@ -59,6 +59,7 @@ func (r *ServiceFunctionChainReconciler) Reconcile(ctx context.Context, req ctrl
 
 	// TODO(user): your logic here
 	loggerSFC.Info("Start SFC Main controller")
+
 	return ctrl.Result{}, nil
 }
 

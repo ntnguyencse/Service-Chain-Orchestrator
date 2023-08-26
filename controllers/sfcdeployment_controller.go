@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -58,7 +59,20 @@ func (r *SFCDeploymentReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	_ = log.FromContext(ctx)
 
 	// TODO(user): your logic here
+	loggerSFCD.Info("SFC Deployment")
+	loggerSD.Info("Start Scheduler COntroller")
+	SFD := &sfcv1.SFCDeployment{}
+	if err := r.Client.Get(ctx, req.NamespacedName, SFD); err != nil {
+		if apierrors.IsNotFound(err) {
+			// Object not found, return.  Created objects are automatically garbage collected.
+			// For additional cleanup logic use finalizers.
+			return ctrl.Result{}, nil
+		}
 
+		// Error reading the object - requeue the request.
+		return ctrl.Result{}, err
+	}
+	loggerSD.Info("Translate SFC to Istio Deployment", SFD.Name, SFD)
 	return ctrl.Result{}, nil
 }
 

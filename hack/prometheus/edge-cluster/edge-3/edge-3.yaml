@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: publish-video-service
+  namespace: default
+  labels:
+    app: publish-video-app
+    service: publish-video-app-service
+    chain: video-streaming-chain
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: publish-video-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: publish-video
+  namespace: default
+  labels:
+    app: publish-video-app
+    version: v1
+    chain: video-streaming-chain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publish-video-app
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: publish-video-app
+        version: v1
+    spec:
+      containers:
+      - name: helloworld
+        image: docker.io/istio/examples-helloworld-v2
+        resources:
+          requests:
+            cpu: "100m"
+        imagePullPolicy: IfNotPresent #Always
+        ports:
+        - containerPort: 5000

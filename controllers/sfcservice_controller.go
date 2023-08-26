@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -58,7 +59,20 @@ func (r *SFCServiceReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 	_ = log.FromContext(ctx)
 
 	// TODO(user): your logic here
+	loggerSFCS.Info("SFC Service")
 
+	SFS := &sfcv1.SFCService{}
+	if err := r.Client.Get(ctx, req.NamespacedName, SFS); err != nil {
+		if apierrors.IsNotFound(err) {
+			// Object not found, return.  Created objects are automatically garbage collected.
+			// For additional cleanup logic use finalizers.
+			return ctrl.Result{}, nil
+		}
+
+		// Error reading the object - requeue the request.
+		return ctrl.Result{}, err
+	}
+	loggerSD.Info("Translate SFC to Istio Service", SFS.Name, SFS)
 	return ctrl.Result{}, nil
 }
 
