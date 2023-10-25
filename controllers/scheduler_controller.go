@@ -18,8 +18,10 @@ package controllers
 
 import (
 	"context"
+	"errors"
 
 	"github.com/go-logr/logr"
+	intentv1 "github.com/ntnguyencse/L-KaaS/api/v1"
 	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -28,6 +30,17 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 )
+
+type ScheduleResult struct {
+	// Name of the selected cluster.
+	SuggestedCluster string
+	// The number of nodes the scheduler evaluated the pod against in the filtering
+	// phase and beyond.
+	EvaluatedCluster int
+	// The number of nodes out of the evaluated ones that fit the pod.
+	FeasibleCluster int
+	// contains filtered or unexported fields
+}
 
 // SchedulerReconciler reconciles a Scheduler object
 type SchedulerReconciler struct {
@@ -87,4 +100,61 @@ func (r *SchedulerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&sfcv1.ServiceFunctionChain{}).
 		Complete(r)
+}
+
+func (r *SchedulerReconciler) GetLogicalCluster(ctx context.Context, req ctrl.Request) (*intentv1.ListLogicalCluster, error) {
+	err := errors.New("Error when get logical cluster")
+	listLogicalCluster := &intentv1.ListLogicalCluster{}
+	if err := r.Client.List(ctx, listLogicalCluster); err != nil {
+
+		loggerSD.Error(err, "Error when get Logical Cluster", "Error when list logical cluster")
+		return nil, err
+
+	}
+	return listLogicalCluster, err
+}
+func FindLogicalCluster(name string, list *intentv1.ListLogicalCluster) (intentv1.LogicalCluster, error) {
+	err := errors.New("Error when get logical cluster")
+	var logicalCluster intentv1.logicalCluster
+	for _, item := range list {
+		if item.name == name {
+			logicalCluster = item
+		}
+	}
+
+	return logicalCluster, err
+}
+func (r *SchedulerReconciler) MakeLogicalTopology(ctx context.Context, rep ctrl.Request) error {
+	err := errors.New("Error when get logical cluster")
+
+	// var numberOfNodes int = 4
+	// var listNodes []Node
+
+	// for id, i := range listNodes {
+
+	// }
+
+	return err
+
+}
+func (r *SchedulerReconciler) ChooseLocationForDeployment(ctx context.Context, deployment sfcv1.SFCDeployment) error {
+
+	return nil
+}
+
+// Node represents a node in the graph.
+type Node struct {
+	Name  string
+	Edges []*Node
+}
+
+// AddEdge adds a new edge to the node.
+func (n *Node) Add_Edge(node *Node) {
+
+	n.Edges = append(n.Edges, node)
+}
+func ScheduleServiceDeployment() (ScheduleResult, error) {
+	var result ScheduleResult
+
+	return result, nil
 }

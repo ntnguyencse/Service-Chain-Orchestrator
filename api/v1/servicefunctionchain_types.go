@@ -47,6 +47,7 @@ type ServiceDefinition struct {
 type Connectivity map[string]string
 type MetaData struct {
 	Name string `json:"name,omitempty"`
+	TenantName string `json:"tenantname,omitempty"`
 }
 
 // ServiceFunctionChainStatus defines the observed state of ServiceFunctionChain

@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 
+	intentv1 "github.com/ntnguyencse/L-KaaS/api/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -37,9 +38,23 @@ type ServiceFunctionChainReconciler struct {
 	s      *json.Serializer
 }
 
+const (
+	HEADSFC    int = 1
+	ENDSFC         = 2
+	BETWEENSFC     = 3
+)
+
 var (
 	loggerSFC = ctrl.Log.WithName("SFC Main Controller")
 )
+
+type ClusterResource struct {
+	Name            string
+	CPUAvailable    int64
+	MemoryAvailable int64
+	GPUAvailable    int64
+	VPUAvailable    int64
+}
 
 //+kubebuilder:rbac:groups=sfc.automation.dcn.ssu.ac.kr,resources=servicefunctionchains,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=sfc.automation.dcn.ssu.ac.kr,resources=servicefunctionchains/status,verbs=get;update;patch
@@ -62,6 +77,19 @@ func (r *ServiceFunctionChainReconciler) Reconcile(ctx context.Context, req ctrl
 
 	return ctrl.Result{}, nil
 }
+func (r *ServiceFunctionChainReconciler) DeployServiceFunctionDeployment(ctx context.Context, sfc sfcv1.ServiceFunctionChain) error {
+
+	for _, serviceDeployment := range sfc.Spec.Links {
+		loggerSFC.Info("Start pick a location for Service Function Deployment")
+		loggerSFC.Info(serviceDeployment.Metadata.Name)
+	}
+	return nil
+
+}
+func ResourceScoring(sdeployment sfcv1.SFCDeployment, serviceType int, logicalClusterGraph []int) error {
+
+	return nil
+}
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *ServiceFunctionChainReconciler) SetupWithManager(mgr ctrl.Manager) error {
@@ -69,3 +97,11 @@ func (r *ServiceFunctionChainReconciler) SetupWithManager(mgr ctrl.Manager) erro
 		For(&sfcv1.ServiceFunctionChain{}).
 		Complete(r)
 }
+
+func GetLogicalCLusterAvailableResource(serviceDeploymentName string, logicalCluster intentv1.LogicalCluster) ([]ClusterResource, error) {
+	var logicalClusterResource = []ClusterResource{}
+
+	return logicalClusterResource, nil
+}
+
+func Prioritize(name string, )
