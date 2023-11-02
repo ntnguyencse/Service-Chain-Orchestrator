@@ -21,8 +21,8 @@ import (
 	"errors"
 
 	"github.com/go-logr/logr"
-	intentv1 "github.com/ntnguyencse/L-KaaS/api/v1"
 	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
+	intentv1 "github.com/ntnguyencse/l-kaas/api/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"

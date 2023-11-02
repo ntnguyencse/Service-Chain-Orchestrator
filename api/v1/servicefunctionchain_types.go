@@ -46,7 +46,7 @@ type ServiceDefinition struct {
 }
 type Connectivity map[string]string
 type MetaData struct {
-	Name string `json:"name,omitempty"`
+	Name       string `json:"name,omitempty"`
 	TenantName string `json:"tenantname,omitempty"`
 }
 
@@ -55,6 +55,7 @@ type ServiceFunctionChainStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	ServiceFunctions []ServiceFunctionInfo `json:"serviceFunctions,omitempty"`
+	Translated       bool
 }
 
 type ServiceFunctionInfo struct {

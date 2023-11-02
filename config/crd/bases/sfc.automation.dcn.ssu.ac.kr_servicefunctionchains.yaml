@@ -108,6 +108,8 @@ spec:
                       properties:
                         name:
                           type: string
+                        tenantname:
+                          type: string
                       type: object
                     service:
                       properties:
@@ -118,6 +120,8 @@ spec:
                         metadata:
                           properties:
                             name:
+                              type: string
+                            tenantname:
                               type: string
                           type: object
                         serviceRef:

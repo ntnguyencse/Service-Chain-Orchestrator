@@ -45,6 +45,7 @@ func Schedule() {
 
 func GetRequestFromQueue() {
 	// Queue of request deploy workload
+	
 }
 
 func GetSystemStatus() {

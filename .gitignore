@@ -25,3 +25,6 @@ Dockerfile.cross
 *.swo
 *~
 /kube
+
+# Git COnfig
+config/git/*

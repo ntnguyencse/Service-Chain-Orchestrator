@@ -19,12 +19,16 @@ package controllers
 import (
 	"context"
 
-	intentv1 "github.com/ntnguyencse/L-KaaS/api/v1"
+	intentv1 "github.com/ntnguyencse/l-kaas/api/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+
+	// capiulti "sigs.k8s.io/cluster-api/util"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	"github.com/go-logr/logr"
 	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
@@ -39,9 +43,10 @@ type ServiceFunctionChainReconciler struct {
 }
 
 const (
-	HEADSFC    int = 1
-	ENDSFC         = 2
-	BETWEENSFC     = 3
+	HEADSFC      int    = 1
+	ENDSFC              = 2
+	BETWEENSFC          = 3
+	SFCFinalizer string = "sfc.automation.dcn.ssu.ac.kr"
 )
 
 var (
@@ -75,9 +80,44 @@ func (r *ServiceFunctionChainReconciler) Reconcile(ctx context.Context, req ctrl
 	// TODO(user): your logic here
 	loggerSFC.Info("Start SFC Main controller")
 
+	SFCObjject := &sfcv1.ServiceFunctionChain{}
+	if err := r.Client.Get(ctx, req.NamespacedName, SFCObjject); err != nil {
+		if apierrors.IsNotFound(err) {
+			// Object not found, return.  Created objects are automatically garbage collected.
+			// For additional cleanup logic use finalizers.
+			return ctrl.Result{}, nil
+		}
+		// Error reading the object - requeue the request.
+		return ctrl.Result{}, err
+	}
+	// Check if object is deleted
+	if !SFCObjject.ObjectMeta.DeletionTimestamp.IsZero() {
+		loggerSFC.Info("SFCObjject is Deleted")
+
+		return r.ReconcilerDelete(ctx, SFCObjject)
+	}
+	// Translate SFC to deployment
+
 	return ctrl.Result{}, nil
 }
-func (r *ServiceFunctionChainReconciler) DeployServiceFunctionDeployment(ctx context.Context, sfc sfcv1.ServiceFunctionChain) error {
+func (r *ServiceFunctionChainReconciler) ReconcilerDelete(ctx context.Context, sfcobjject *sfcv1.ServiceFunctionChain) (ctrl.Result, error) {
+	controllerutil.RemoveFinalizer(sfcobjject, SFCFinalizer)
+	return ctrl.Result{}, nil
+}
+
+func (r *ServiceFunctionChainReconciler) ReconcilerNormal(ctx context.Context, sfcobjject *sfcv1.ServiceFunctionChain) (ctrl.Result, error) {
+	// Get or Create SFC
+
+	return ctrl.Result{}, nil
+}
+func (r *ServiceFunctionChainReconciler) GetOrCreateSFCDeployment(ctx context.Context, sfcobjject *sfcv1.ServiceFunctionChain) (sfcv1.SFCDeploymentList, error) {
+	var SFCDeploymentList sfcv1.SFCDeploymentList
+
+	return SFCDeploymentList, nil
+}
+
+func (r *ServiceFunctionChainReconciler) GetSFCDeployment()
+func (r *ServiceFunctionChainReconciler) DeployServiceFunctionDeployment(ctx context.Context, sfc *sfcv1.ServiceFunctionChain) error {
 
 	for _, serviceDeployment := range sfc.Spec.Links {
 		loggerSFC.Info("Start pick a location for Service Function Deployment")
@@ -98,10 +138,8 @@ func (r *ServiceFunctionChainReconciler) SetupWithManager(mgr ctrl.Manager) erro
 		Complete(r)
 }
 
-func GetLogicalCLusterAvailableResource(serviceDeploymentName string, logicalCluster intentv1.LogicalCluster) ([]ClusterResource, error) {
+func GetLogicalCLusterAvailableResource(serviceDeploymentName string, logicalCluster *intentv1.LogicalCluster) ([]ClusterResource, error) {
 	var logicalClusterResource = []ClusterResource{}
 
 	return logicalClusterResource, nil
 }
-
-func Prioritize(name string, )
