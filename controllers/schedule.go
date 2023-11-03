@@ -16,57 +16,73 @@ limitations under the License.
 
 package controllers
 
-func Schedule() {
-	// Schedule
-	// Step 1:
-	GetRequestFromQueue()
-	// Step 2:
-	GetSystemStatus()
-	//Step 3:
-	PreFilterClusterPlacement()
-	// Step 4:
-	FilteringClusterPlacement()
-	// Step 5:
-	PostFilterClusterPlacement()
-	// Step 6:
-	ScoringClusterPlacement()
-	// Step 7:
-	NormalizeScore()
-	// Step 8:
-	Reverse()
-	// Step 9:
-	PreBindClusterPlacement()
-	// Step 10:
-	BindWorkloadsToCluster()
-	// Step 11:
-	PostBindWorkloads()
+import (
+	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
+)
 
+type SystemStatus struct {
+	CPULoad float32
+	MemoryAvailable int32
+	MemoryTotal	int32
+	CPUUtilization float32
+	MemoryUtilization float32
 }
-
-func GetRequestFromQueue() {
-	// Queue of request deploy workload
+type NetworkMeshInformation struct {
+	Latency float32
 	
 }
+func Schedule(sfc *sfcv1.ServiceFunctionChain) {
+	// Schedule
+	// Step 1:
+	GetRequestFromQueue(sfc)
+	// Step 2:
+	GetSystemStatus(sfc)
+	//Step 3:
+	PreFilterClusterPlacement(sfc)
+	// Step 4:
+	FilteringClusterPlacement(sfc)
+	// Step 5:
+	PostFilterClusterPlacement(sfc)
+	// Step 6:
+	ScoringClusterPlacement(sfc)
+	// Step 7:
+	NormalizeScore(sfc)
+	// Step 8:
+	Reverse(sfc)
+	// Step 9:
+	PreBindClusterPlacement(sfc)
+	// Step 10:
+	BindWorkloadsToCluster(sfc)
+	// Step 11:
+	PostBindWorkloads(sfc)
 
-func GetSystemStatus() {
+}
+
+func GetRequestFromQueue(sfc *sfcv1.ServiceFunctionChain) {
+	// Queue of request deploy workload
+	loggerSFCS.Info("Get request from Queue to Schedule")
+	loggerSFCS.Info("Request Schedule: ")
+}
+
+func GetSystemStatus(sfc *sfcv1.ServiceFunctionChain) (Graph, SystemStatus) {
 	// Get current status of system to determine state of system, resources, ultization
 
 }
 
-func PreFilterClusterPlacement() {
+func PreFilterClusterPlacement(sfc *sfcv1.ServiceFunctionChain) {
 	// Pre-process cluster palcement before filtering
 
 }
 
-func FilteringClusterPlacement() {
+func FilteringClusterPlacement(sfc *sfcv1.ServiceFunctionChain) {
 	// Filter cluster placement that could handle workloads
 }
 
-func PostFilterClusterPlacement() {
+func PostFilterClusterPlacement(sfc *sfcv1.ServiceFunctionChain) {
 	// Post Process Cluster Placement before Scoring function
 }
 
-func ScoringClusterPlacement() {
+func ScoringClusterPlacement(sfc *sfcv1.ServiceFunctionChain) {
 	// Evaluate and score the cluster palcement based on score rules:
 	// - Based on Computational Resources: Ranks filtered clusters to choose the most suitable placement based on score rules (the most suitable is the least score)
 	// - Based on SLA: between service to service or service to end-user if service running on this placement.
@@ -74,24 +90,24 @@ func ScoringClusterPlacement() {
 
 }
 
-func NormalizeScore() {
+func NormalizeScore(sfc *sfcv1.ServiceFunctionChain) {
 
 	// Normalize Score marks of cluster placements
 }
 
-func Reverse() {
+func Reverse(sfc *sfcv1.ServiceFunctionChain) {
 	// Depend on
 }
-func PreBindClusterPlacement() {
+func PreBindClusterPlacement(sfc *sfcv1.ServiceFunctionChain) {
 	// Prepare before bind workload to cluster
 
 }
 
-func BindWorkloadsToCluster() {
+func BindWorkloadsToCluster(sfc *sfcv1.ServiceFunctionChain) {
 	// Assigning workload to Kubernetes cluster
 
 }
 
-func PostBindWorkloads() {
+func PostBindWorkloads(sfc *sfcv1.ServiceFunctionChain) {
 	// Update or do the job after bind
 }
