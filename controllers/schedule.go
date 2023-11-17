@@ -17,28 +17,33 @@ limitations under the License.
 package controllers
 
 import (
+	"fmt"
+
 	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
 )
 
 type SystemStatus struct {
-	CPULoad float32
-	MemoryAvailable int32
-	MemoryTotal	int32
-	CPUUtilization float32
+	CPULoad           float32
+	MemoryAvailable   int32
+	MemoryTotal       int32
+	CPUUtilization    float32
 	MemoryUtilization float32
 }
 type NetworkMeshInformation struct {
 	Latency float32
-	
 }
+
 func Schedule(sfc *sfcv1.ServiceFunctionChain) {
 	// Schedule
 	// Step 1:
 	GetRequestFromQueue(sfc)
 	// Step 2:
-	GetSystemStatus(sfc)
+	graph, err := GetSystemStatus(sfc)
+	if err != nil {
+		fmt.Println("Error when get system status")
+	}
 	//Step 3:
-	PreFilterClusterPlacement(sfc)
+	PreFilterClusterPlacement(sfc, &graph)
 	// Step 4:
 	FilteringClusterPlacement(sfc)
 	// Step 5:
@@ -64,14 +69,14 @@ func GetRequestFromQueue(sfc *sfcv1.ServiceFunctionChain) {
 	loggerSFCS.Info("Request Schedule: ")
 }
 
-func GetSystemStatus(sfc *sfcv1.ServiceFunctionChain) (Graph, SystemStatus) {
+func GetSystemStatus(sfc *sfcv1.ServiceFunctionChain) (Graph, error) {
 	// Get current status of system to determine state of system, resources, ultization
-
+	return GetSystemTopologySimlated(3), nil
 }
 
-func PreFilterClusterPlacement(sfc *sfcv1.ServiceFunctionChain) {
+func PreFilterClusterPlacement(sfc *sfcv1.ServiceFunctionChain, graph *Graph) {
 	// Pre-process cluster palcement before filtering
-
+	// Remove some palcement not suitable for workload
 }
 
 func FilteringClusterPlacement(sfc *sfcv1.ServiceFunctionChain) {

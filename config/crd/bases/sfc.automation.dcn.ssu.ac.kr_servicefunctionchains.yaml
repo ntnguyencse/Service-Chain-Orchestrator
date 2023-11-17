@@ -280,6 +280,8 @@ spec:
                       type: string
                   type: object
                 type: array
+              translated:
+                type: boolean
             type: object
         type: object
     served: true

@@ -101,6 +101,7 @@ func GetFileSHA(client *github.Client, ctx context.Context, repo GitRepository, 
 	return readme.GetSHA(), nil
 
 }
+
 // Example path=github.com/test/folder1/newfolder
 // newfolder is a name of new folder which will be created
 func CreateFolderAtPath(client *github.Client, ctx context.Context, repo GitRepository, path string) error {

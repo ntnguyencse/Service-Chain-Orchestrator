@@ -71,6 +71,7 @@ func (r *ServiceLevelAgreementReconciler) Reconcile(ctx context.Context, req ctr
 		// Error reading the object - requeue the request.
 		return ctrl.Result{}, err
 	}
+	// SLA.ObjectMeta.Labels["location"]
 	loggerSLA.Info("Get SLA for Service Chain", SLA.Name, SLA.Spec)
 	return ctrl.Result{}, nil
 }

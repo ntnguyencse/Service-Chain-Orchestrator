@@ -21,8 +21,8 @@ import (
 	"errors"
 
 	"github.com/go-logr/logr"
+	intentv1 "github.com/ntnguyencse/L-KaaS/api/v1"
 	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
-	intentv1 "github.com/ntnguyencse/l-kaas/api/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
@@ -102,9 +102,9 @@ func (r *SchedulerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-func (r *SchedulerReconciler) GetLogicalCluster(ctx context.Context, req ctrl.Request) (*intentv1.ListLogicalCluster, error) {
+func (r *SchedulerReconciler) GetLogicalCluster(ctx context.Context, req ctrl.Request) (*intentv1.LogicalClusterList, error) {
 	err := errors.New("Error when get logical cluster")
-	listLogicalCluster := &intentv1.ListLogicalCluster{}
+	listLogicalCluster := &intentv1.LogicalClusterList{}
 	if err := r.Client.List(ctx, listLogicalCluster); err != nil {
 
 		loggerSD.Error(err, "Error when get Logical Cluster", "Error when list logical cluster")
@@ -113,11 +113,11 @@ func (r *SchedulerReconciler) GetLogicalCluster(ctx context.Context, req ctrl.Re
 	}
 	return listLogicalCluster, err
 }
-func FindLogicalCluster(name string, list *intentv1.ListLogicalCluster) (intentv1.LogicalCluster, error) {
+func FindLogicalCluster(name string, list *intentv1.LogicalClusterList) (intentv1.LogicalCluster, error) {
 	err := errors.New("Error when get logical cluster")
-	var logicalCluster intentv1.logicalCluster
-	for _, item := range list {
-		if item.name == name {
+	var logicalCluster intentv1.LogicalCluster
+	for _, item := range *&list.Items {
+		if item.Name == name {
 			logicalCluster = item
 		}
 	}
@@ -147,6 +147,11 @@ type Node struct {
 	Name  string
 	Edges []*Node
 }
+type Placement struct {
+	ClusterName     string
+	ClusterLocation string
+	GithubFolder    string
+}
 
 // AddEdge adds a new edge to the node.
 func (n *Node) Add_Edge(node *Node) {
@@ -157,4 +162,21 @@ func ScheduleServiceDeployment() (ScheduleResult, error) {
 	var result ScheduleResult
 
 	return result, nil
+}
+func MakeGraphFromLogicalCluster(lcluster *intentv1.LogicalCluster) Graph {
+	var numberOfCluster int = len(lcluster.Spec.Clusters)
+	return GetSystemTopologySimlated(numberOfCluster)
+}
+
+func GetListClusterFromLogicalCluster(lclsuter *intentv1.LogicalCluster) []Placement {
+	clusterMembers := lclsuter.Spec.Clusters
+	var placements []Placement
+	for _, cluster := range clusterMembers {
+		placement := Placement{
+			ClusterName:     cluster.Name,
+			ClusterLocation: cluster.ObjectMeta.Labels["location"],
+		}
+		placements = append(placements, placement)
+	}
+	return placements
 }

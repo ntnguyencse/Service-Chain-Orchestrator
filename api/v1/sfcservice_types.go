@@ -42,10 +42,10 @@ type SFCServiceSpec corev1.ServiceSpec
 type SFCServiceStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	ReadyForDeploy bool
-	Location       string
-	GithubLink     string
-	Deployed       bool
+	ReadyForDeploy bool   `json:"readyfordeploy,omitempty"`
+	Location       string `json:"location,omitempty"`
+	GithubLink     string `json:"githublink,omitempty"`
+	Deployed       bool   `json:"deployed,omitempty"`
 }
 
 //+kubebuilder:object:root=true

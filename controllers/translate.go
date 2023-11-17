@@ -5,14 +5,30 @@ import (
 	"fmt"
 
 	sfcv1 "github.com/ntnguyencse/Service-Chain-Orchestrator/api/v1"
+	appsv1 "k8s.io/api/apps/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 
 func (r *SFCDeploymentReconciler) TranslateSFCtoServiceMeshDeployment(ctx context.Context, req ctrl.Request, sfc sfcv1.LinkService) (string, error) {
-	var deployment string
-
-	return deployment, nil
+	var deploymentString string
+	SFCDeploymentName := sfc.Deployment.Name
+	SFCDeployment, err := r.GetSFCDeploymentByName(ctx, SFCDeploymentName)
+	if err != nil {
+		loggerSFC.Error(err, "Error when get SFC Deployment")
+	}
+	// Translate LinkService to SFC Deployment
+	sfcSpec := SFCDeployment.DeepCopy().Spec
+	deployment := &appsv1.Deployment{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      SFCDeploymentName,
+			Namespace: sfc.Deployment.Namespace,
+		},
+		Spec: appsv1.DeploymentSpec(sfcSpec),
+	}
+	deploymentString = deployment.String()
+	return deploymentString, nil
 }
 
 func (r *SFCDeploymentReconciler) GetSFCDeploymentByName(ctx context.Context, deploymentName string) (sfcv1.SFCDeployment, error) {

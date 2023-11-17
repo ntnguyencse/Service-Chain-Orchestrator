@@ -19,7 +19,8 @@ package controllers
 import (
 	"context"
 
-	intentv1 "github.com/ntnguyencse/l-kaas/api/v1"
+	github "github.com/google/go-github/v56/github"
+	intentv1 "github.com/ntnguyencse/L-KaaS/api/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
@@ -76,7 +77,17 @@ type ClusterResource struct {
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.14.1/pkg/reconcile
 func (r *ServiceFunctionChainReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
+	token, err := GetGithubToken(GithubTokenFilePath)
+	if err != nil {
+		loggerSFC.Error(err, "Error when get github token", GithubTokenFilePath, err)
+		return ctrl.Result{}, nil
+	}
+	client := github.NewClient(nil).WithAuthToken(token)
 
+	repo := GitRepository{
+		Owner:    "SFC-Demo",
+		RepoName: "edge",
+	}
 	// TODO(user): your logic here
 	loggerSFC.Info("Start SFC Main controller")
 
@@ -97,9 +108,28 @@ func (r *ServiceFunctionChainReconciler) Reconcile(ctx context.Context, req ctrl
 		return r.ReconcilerDelete(ctx, SFCObjject)
 	}
 	// Translate SFC to deployment
+	// Check is deployed
+	SFCStatus := SFCObjject.Status
+	if SFCStatus.Translated {
 
+	}
+	for id, deployment := range SFCStatus.ServiceFunctions {
+
+		if len(deployment.Placement) > 0 && !deployment.Deployed {
+			// Deploy to cluster
+			// Commit to git repository
+			content := string("aaaa")
+			// Call translate
+			path := SFCObjject.Name + "/" + SFCObjject.Spec.Links[id].Metadata.Name + "/" + "deployment.yaml"
+			CreateAFile(client, ctx, repo, path, &content)
+			SFCObjject.Status.ServiceFunctions[id].Deployed = true
+		}
+	}
 	return ctrl.Result{}, nil
 }
+
+// Create or
+// func (r *ServiceFunctionChainReconciler)
 func (r *ServiceFunctionChainReconciler) ReconcilerDelete(ctx context.Context, sfcobjject *sfcv1.ServiceFunctionChain) (ctrl.Result, error) {
 	controllerutil.RemoveFinalizer(sfcobjject, SFCFinalizer)
 	return ctrl.Result{}, nil
@@ -116,7 +146,9 @@ func (r *ServiceFunctionChainReconciler) GetOrCreateSFCDeployment(ctx context.Co
 	return SFCDeploymentList, nil
 }
 
-func (r *ServiceFunctionChainReconciler) GetSFCDeployment()
+func (r *ServiceFunctionChainReconciler) GetSFCDeployment() {
+	return
+}
 func (r *ServiceFunctionChainReconciler) DeployServiceFunctionDeployment(ctx context.Context, sfc *sfcv1.ServiceFunctionChain) error {
 
 	for _, serviceDeployment := range sfc.Spec.Links {

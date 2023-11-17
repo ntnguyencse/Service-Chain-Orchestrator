@@ -55,7 +55,7 @@ type ServiceFunctionChainStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 	ServiceFunctions []ServiceFunctionInfo `json:"serviceFunctions,omitempty"`
-	Translated       bool
+	Translated       bool                  `json:"translated,omitempty"`
 }
 
 type ServiceFunctionInfo struct {
