@@ -1,7 +1,7 @@
 apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
 kind: SFCDeployment
 metadata:
-  name: publish-video
+  name: publish-video-app
   namespace: default
   labels:
     app: publish-video-app

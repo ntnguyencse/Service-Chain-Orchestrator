@@ -72,7 +72,7 @@ func (r *SFCDeploymentReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		// Error reading the object - requeue the request.
 		return ctrl.Result{}, err
 	}
-	loggerSD.Info("Translate SFC to Istio Deployment", SFD.Name, SFD)
+	// loggerSD.Info("Translate SFC to Istio Deployment", SFD.Name, SFD)
 
 	return ctrl.Result{}, nil
 }
