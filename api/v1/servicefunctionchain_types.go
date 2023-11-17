@@ -56,6 +56,7 @@ type ServiceFunctionChainStatus struct {
 	// Important: Run "make" to regenerate code after modifying this file
 	ServiceFunctions []ServiceFunctionInfo `json:"serviceFunctions,omitempty"`
 	Translated       bool                  `json:"translated,omitempty"`
+	Deployed         bool                  `json:"deployed,omitempty"`
 }
 
 type ServiceFunctionInfo struct {

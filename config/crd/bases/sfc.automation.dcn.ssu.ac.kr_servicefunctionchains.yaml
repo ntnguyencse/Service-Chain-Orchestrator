@@ -266,6 +266,8 @@ spec:
             description: ServiceFunctionChainStatus defines the observed state of
               ServiceFunctionChain
             properties:
+              deployed:
+                type: boolean
               serviceFunctions:
                 description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
                   of cluster Important: Run "make" to regenerate code after modifying
