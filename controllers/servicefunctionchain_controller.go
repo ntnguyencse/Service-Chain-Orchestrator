@@ -107,23 +107,35 @@ func (r *ServiceFunctionChainReconciler) Reconcile(ctx context.Context, req ctrl
 
 		return r.ReconcilerDelete(ctx, SFCObjject)
 	}
+	for _, link := range SFCObjject.Spec.Links {
+		// Translate
+		translatedString, err1 := r.TranslateSFCtoServiceMeshDeployment(ctx, req, link)
+		if err1 != nil {
+			loggerSFC.Error(err1, "Error when translate SFC to Service Mesh")
+		} else {
+			loggerSFC.Info(translatedString)
+		}
+
+	}
 	// Translate SFC to deployment
 	// Check is deployed
 	SFCStatus := SFCObjject.Status
-	if SFCStatus.Translated {
+	// if SFCStatus.Translated {
 
-	}
+	// }
 	for id, deployment := range SFCStatus.ServiceFunctions {
-
-		if len(deployment.Placement) > 0 && !deployment.Deployed {
-			// Deploy to cluster
-			// Commit to git repository
-			content := string("aaaa")
-			// Call translate
-			path := SFCObjject.Name + "/" + SFCObjject.Spec.Links[id].Metadata.Name + "/" + "deployment.yaml"
-			CreateAFile(client, ctx, repo, path, &content)
-			SFCObjject.Status.ServiceFunctions[id].Deployed = true
+		if false {
+			if len(deployment.Placement) > 0 && !deployment.Deployed {
+				// Deploy to cluster
+				// Commit to git repository
+				content := string("aaaa")
+				// Call translate
+				path := SFCObjject.Name + "/" + SFCObjject.Spec.Links[id].Metadata.Name + "/" + "deployment.yaml"
+				CreateAFile(client, ctx, repo, path, &content)
+				SFCObjject.Status.ServiceFunctions[id].Deployed = true
+			}
 		}
+
 	}
 	return ctrl.Result{}, nil
 }

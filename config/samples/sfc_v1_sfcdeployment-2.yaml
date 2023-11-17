@@ -1,7 +1,7 @@
 apiVersion: sfc.automation.dcn.ssu.ac.kr/v1
 kind: SFCDeployment
 metadata:
-  name: process-video
+  name: process-video-app
   namespace: default
   labels:
     app: process-video-app

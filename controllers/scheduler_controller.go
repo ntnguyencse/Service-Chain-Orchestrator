@@ -70,7 +70,7 @@ var (
 func (r *SchedulerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
 
-	loggerSD.Info("Start Scheduler COntroller")
+	loggerSD.Info("Start Scheduler Controller")
 	SFC := &sfcv1.ServiceFunctionChain{}
 	if err := r.Client.Get(ctx, req.NamespacedName, SFC); err != nil {
 		if apierrors.IsNotFound(err) {
@@ -81,15 +81,6 @@ func (r *SchedulerReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 
 		// Error reading the object - requeue the request.
 		return ctrl.Result{}, err
-	}
-	listLocation := []string{"Location 1", "Location 2", "Location 3"}
-	loggerSD.Info("Start scheduling Service Function Chain")
-	listSF := SFC.Spec.Links
-	for id, SF := range listSF {
-		loggerSD.Info("Print Service Function: ", SF.Metadata.Name, SF.Deployment)
-		loggerSD.Info("Finding placement for ", SF.Metadata.Name, SF.Deployment)
-		loggerSD.Info("Placement for ", SF.Metadata.Name, listLocation[id])
-
 	}
 
 	return ctrl.Result{}, nil

@@ -72,7 +72,7 @@ func (r *ServiceLevelAgreementReconciler) Reconcile(ctx context.Context, req ctr
 		return ctrl.Result{}, err
 	}
 	// SLA.ObjectMeta.Labels["location"]
-	loggerSLA.Info("Get SLA for Service Chain", SLA.Name, SLA.Spec)
+	// loggerSLA.Info("Get SLA for Service Chain", SLA.Name, SLA.Spec)
 	return ctrl.Result{}, nil
 }
 
