@@ -7,6 +7,7 @@ Must installed these software:
 - docker version 17.03+.
 - kubectl version v1.11.3+.
 - Access to a Kubernetes v1.11.3+ cluster.
+- Source code: Clone source code here `https://github.com/ntnguyencse/L-KaaS`
 
 ### Install kubebuilder:
 
@@ -617,3 +618,58 @@ Kubernetes adds a special tag or annotation to the resource called Finalizers wh
 > FINALIZERS ARE NAMESPACED KEYS THAT TELL KUBERNETES TO WAIT UNTIL SPECIFIC CONDITIONS ARE MET BEFORE IT FULLY DELETES RESOURCES MARKED FOR DELETION. FINALIZERS ALERT CONTROLLERS TO CLEAN UP RESOURCES THE DELETED OBJECT OWNED.
 
 Finalizers are the keys to tell Kubernetes API that, there are few resources to be deleted or taken care of before this particular resource is deleted.
+
+# Installing and setup SFC over L-KaaS
+
+## Prerequisite
+
+1. A L-KaaS management Kubernetes clusters
+2. Github repositories
+3. Github token
+4. Installed go 1.20+
+5. Install kubebuilder 
+
+
+## Download or Clone source code to local machine
+
+Clone source code here `https://github.com/ntnguyencse/Service-Chain-Orchestrator/`
+
+## Installation
+
+Export Github token to command line
+
+```bash
+
+    #!/bin/bash
+    export KUBECONFIG=/home/ubuntu/config
+    export GH_TOKEN=ghp_tokenID
+    export GITHUB_TOKEN=ghp_token
+```
+
+### Run controller
+
+Using these command on terminal:
+Run your controller (this will run in the foreground, so switch to a new terminal if you want to leave it running):
+```bash
+    make run
+```
+
+### Install controller
+Install the CRDs into the cluster:
+NOTE: You can also run this in one step by running: make install run
+Using this command
+
+```bash
+    make install
+```
+
+### Generate the CRDs 
+If you are editing the API definitions, generate the manifests such as CRs or CRDs using:
+```bash
+    make manifests
+```
+
+## SFC Resources
+
+Example of SFC resource can be found here:
+`https://github.com/ntnguyencse/Service-Chain-Orchestrator/tree/main/config/samples`
